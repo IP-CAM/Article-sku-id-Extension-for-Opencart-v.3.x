@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>Вывод артикула в карте товара и категории</name>
+  <code>Article_out-oc3</code>
+  <version>1.0</version>
+  <author>Article</author>
+  <link></link>
+
+  <file path="catalog/controller/product/product.php">
+  <operation>
+      <search>
+        <![CDATA[$data['model'] = $product_info['model'];]]>
+      </search>
+      <add position="after">
+        <![CDATA[   
+        $data['sku'] = $product_info['product_id'];
+        ]]>
+      </add>
+    </operation>        
+  </file>  
+  <file path="catalog/controller/extension/module/latest.php">
+  <operation>
+      <search>
+        <![CDATA['tax'         => $tax,]]>
+      </search>
+      <add position="after">
+        <![CDATA[   
+            'sku'         => $result['product_id'],
+        ]]>
+      </add>
+    </operation>        
+  </file>
+  <file path="catalog/controller/extension/module/featured.php">
+  <operation>
+      <search>
+        <![CDATA['tax'         => $tax,]]>
+      </search>
+      <add position="after">
+        <![CDATA[   
+            'sku'         => $product_info['product_id'],
+        ]]>
+      </add>
+    </operation>        
+  </file>
+  <!--
+  <file path="catalog/controller/product/search.php">
+  <operation>
+      <search>
+        <![CDATA['name'        => $result['name'],]]>
+      </search>
+      <add position="after">
+        <![CDATA[          
+        'sku'        => $product_info['sku'],
+        ]]>
+      </add>
+    </operation>        
+  </file>
+-->
+    <file path="catalog/controller/product/category.php">
+  <operation>
+      <search>
+        <![CDATA['rating'      => $result['rating'],]]>
+      </search>
+      <add position="after">
+        <![CDATA[   
+        'sku'         => $result['product_id'],
+        ]]>
+      </add>
+    </operation>        
+  </file>
+  <file path="catalog/language/ru-ru/product/product.php">
+  <operation>
+      <search>
+        <![CDATA[$_['text_model']                              = 'Модель:';]]>
+      </search>
+      <add position="after">
+        <![CDATA[   
+        $_['text_sku'] = '#';
+        ]]>
+      </add>
+    </operation>        
+  </file>
+  <file path="catalog/language/ru-ru/product/category.php">
+  <operation>
+      <search>
+        <![CDATA[$_['text_model']        = 'Модель:';]]>
+      </search>
+      <add position="after">
+        <![CDATA[   
+        $_['text_sku'] = '#';
+        ]]>
+      </add>
+    </operation>        
+  </file>  
+  <file path="catalog/language/ru-ru/extension/module/latest.php">
+  <operation>
+      <search>
+        <![CDATA[$_['text_tax']      = 'Без НДС:';]]>
+      </search>
+      <add position="after">
+        <![CDATA[   
+        $_['text_sku'] = '#';
+        ]]>
+      </add>
+    </operation>        
+  </file>
+  <file path="catalog/language/ru-ru/extension/module/featured.php">
+  <operation>
+      <search>
+        <![CDATA[$_['text_tax']      = 'Без НДС:';]]>
+      </search>
+      <add position="after">
+        <![CDATA[   
+        $_['text_sku'] = '#';
+        ]]>
+      </add>
+    </operation>        
+  </file>
+  <!--
+  <file path="catalog/language/ru-ru/product/search.php">
+  <operation>
+      <search>
+        <![CDATA[$_['text_model']                              = 'Модель:';]]>
+      </search>
+      <add position="after">
+        <![CDATA[   
+        $_['text_sku'] = '#';
+        ]]>
+      </add>
+    </operation>        
+  </file>
+-->
+   <file path="catalog/view/theme/default/template/product/product.twig">
+    <operation>
+      <search>
+        <![CDATA[<li>{{ text_stock }} {{ stock }}</li>]]>
+      </search>
+      <add position="replace">
+        <![CDATA[ 
+        {% if sku %}
+        <li class="oc-scu">{{ text_sku }} {{ sku }}</li> 
+        {% endif %}
+        ]]>
+      </add>
+    </operation>
+    </file>
+  <file path="catalog/view/theme/default/template/product/category.twig">
+    <operation>
+      <search>
+        <![CDATA[<h4><a href="{{ product.href }}">{{ product.name }}</a></h4>]]>
+      </search>
+      <add position="after">
+        <![CDATA[ 
+        {% if product.sku %}
+         <p class="oc-scu">{{ text_sku }} {{ product.sku }}</p>
+        {% endif %}       
+        ]]>
+      </add>
+    </operation>
+    </file>    
+    <file path="catalog/view/theme/default/template/extension/module/latest.twig">
+    <operation>
+      <search>
+        <![CDATA[<h4><a href="{{ product.href }}">{{ product.name }}</a></h4>]]>
+      </search>
+      <add position="after">
+        <![CDATA[ 
+        {% if product.sku %}
+         <p class="oc-scu">{{ text_sku }} {{ product.sku }}</p>
+        {% endif %}       
+        ]]>
+      </add>
+    </operation>
+    </file>
+    <file path="catalog/view/theme/default/template/extension/module/featured.twig">
+    <operation>
+      <search>
+        <![CDATA[<h4><a href="{{ product.href }}">{{ product.name }}</a></h4>]]>
+      </search>
+      <add position="after">
+        <![CDATA[ 
+        {% if product.sku %}
+         <p class="oc-scu">{{ text_sku }} {{ product.sku }}</p>
+        {% endif %}       
+        ]]>
+      </add>
+    </operation>
+    </file>
+    <!--
+    <file path="catalog/view/theme/default/template/product/search.twig">
+    <operation>
+      <search>
+        <![CDATA[<h4><a href="{{ product.href }}">{{ product.name }}</a></h4>]]>
+      </search>
+      <add position="after">
+        <![CDATA[ 
+        {% if product.sku %}
+         <p>{{ text_sku }} {{ product.sku }}</p>
+        {% endif %}       
+        ]]>
+      </add>
+    </operation>
+    </file>
+  -->
+</modification>
